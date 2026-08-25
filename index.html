@@ -1,16 +1,6 @@
-<!doctype html>
-<html lang="id" style="margin:0;padding:0;">
-<head>
-<meta charset="utf-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
-<meta name="theme-color" content="#0a0a0f">
-<title>NUZASIWA | Technology Solution</title>
-<meta name="description" content="Katalog laptop, PC, printer, dan proyektor original bergaransi resmi.">
-<meta property="og:title" content="NUZASIWA | Technology Solution">
-<meta property="og:description" content="Katalog laptop, PC, printer, dan proyektor original bergaransi resmi.">
-<meta property="og:image" content="https://website-miftah.muhammadmiftahudin22.chatgpt.site/og.png">
-<meta property="og:type" content="website">
+<html style="margin:0;padding:0;background:#0a0a0f;">
 <link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<script src="https://cdn.tailwindcss.com"></script>
 <script>
 (function(){
   var s = document.createElement('style');
@@ -28,26 +18,30 @@
       --muted:#94a3b8;
       --border:rgba(148,163,184,.15);
     }
-    *{font-family:'Syne',Arial,sans-serif}
-    body{margin:0;background:var(--dark);color:var(--white);overflow-x:hidden}
+    *{font-family:'Syne',sans-serif}
+    html,body{margin:0;padding:0;background:#0a0a0f;color:var(--white);overflow-x:hidden;min-height:100%;}
 
-    /* Star particles canvas - FULL PAGE */
+    /* Star particles canvas - FULL PAGE FIXED */
     #star-particles{
-      position:fixed;
-      inset:0;
-      z-index:0;
-      pointer-events:none;
+      position:fixed !important;
+      top:0 !important;left:0 !important;
+      width:100vw !important;
+      height:100vh !important;
+      z-index:0 !important;
+      pointer-events:none !important;
+      display:block !important;
+      background:transparent !important;
     }
 
-    .hero-gradient{
-      background:
-        radial-gradient(900px 500px at 5% 0%, rgba(236,72,153,.3), transparent 60%),
-        radial-gradient(700px 400px at 50% -10%, rgba(168,85,247,.25), transparent 60%),
-        radial-gradient(800px 450px at 95% 15%, rgba(56,189,248,.28), transparent 60%),
-        linear-gradient(180deg, #0a0a0f 0%, #12121f 50%, #0a0a0f 100%);
+    /* All content sits ABOVE particles */
+    nav, section, footer, .page-wrapper{
+      position:relative;
+      z-index:1;
+      background:transparent !important;
     }
+
     .card-gradient{
-      background:linear-gradient(145deg, rgba(255,255,255,.04), rgba(255,255,255,.01));
+      background:linear-gradient(145deg, rgba(255,255,255,.05), rgba(255,255,255,.01));
       backdrop-filter:blur(10px);
     }
     .price-tag{
@@ -84,6 +78,8 @@
       transition:all .4s cubic-bezier(.25,.8,.25,1);
       border:1px solid var(--border);
       overflow:hidden;
+      background:rgba(18,18,31,.7);
+      backdrop-filter:blur(8px);
     }
     .product-card:hover{
       transform:translateY(-6px);
@@ -108,7 +104,8 @@
     .category-btn{
       transition:all .3s ease;
       border:1px solid var(--border);
-      background:transparent;
+      background:rgba(18,18,31,.6);
+      backdrop-filter:blur(6px);
       color:var(--muted);
       cursor:pointer;
     }
@@ -144,7 +141,8 @@
       border:1px solid var(--border);
     }
     .contact-card{
-      background:linear-gradient(145deg, rgba(236,72,153,.06), rgba(168,85,247,.06), rgba(56,189,248,.06));
+      background:rgba(18,18,31,.7);
+      backdrop-filter:blur(10px);
       border:1px solid var(--border);
     }
     .divider-gradient{
@@ -162,12 +160,13 @@
       cursor:pointer;transition:all .3s ease;
       padding:18px 14px;border-radius:16px;
       border:1px solid var(--border);
-      background:linear-gradient(145deg, rgba(255,255,255,.03), transparent);
+      background:rgba(18,18,31,.5);
+      backdrop-filter:blur(6px);
       text-align:center;
     }
     .category-tile:hover{
       border-color:var(--purple);
-      background:linear-gradient(145deg, rgba(236,72,153,.06), rgba(168,85,247,.05), rgba(56,189,248,.06));
+      background:rgba(168,85,247,.1);
       transform:translateY(-4px);
     }
     .category-tile:hover .category-icon{
@@ -176,7 +175,8 @@
       box-shadow:0 0 20px rgba(168,85,247,.25);
     }
     .warranty-box{
-      background:linear-gradient(135deg, rgba(236,72,153,.08), rgba(168,85,247,.08), rgba(56,189,248,.08));
+      background:rgba(168,85,247,.08);
+      backdrop-filter:blur(10px);
       border:1px solid rgba(168,85,247,.3);
       border-radius:16px;padding:20px;
     }
@@ -229,7 +229,7 @@
     .marquee-container{
       overflow:hidden;
       white-space:nowrap;
-      background:linear-gradient(90deg, transparent, rgba(168,85,247,.15), transparent);
+      background:linear-gradient(90deg, transparent, rgba(168,85,247,.12), transparent);
       border-top:1px solid rgba(168,85,247,.2);
       border-bottom:1px solid rgba(168,85,247,.2);
       padding:12px 0;
@@ -277,35 +277,10 @@
       50%{filter:drop-shadow(0 0 22px rgba(168,85,247,.7));}
     }
     .logo-glow{animation:glow 3s ease-in-out infinite;}
-
-    /* Ensure ALL content sits above particles */
-    nav, section, footer{
-      position:relative;
-      z-index:1;
-    }
-
-    @media (max-width: 760px){
-      #beranda{padding:42px 18px 30px !important}
-      #beranda > div:first-of-type{grid-template-columns:1fr !important;gap:28px !important}
-      #beranda h1{font-size:36px !important}
-      .hero-gif{max-width:290px}
-      nav > div{padding:11px 16px !important}
-      nav > div > div:last-child{width:100%;overflow-x:auto;flex-wrap:nowrap !important;padding-bottom:3px}
-      nav > div > div:last-child a{flex:0 0 auto}
-      .contact-card{grid-template-columns:1fr !important;padding:24px !important;gap:26px !important}
-      #product-grid{grid-template-columns:1fr !important}
-      section{scroll-margin-top:112px}
-    }
-
-    @media (prefers-reduced-motion: reduce){
-      *, *::before, *::after{animation-duration:.01ms !important;animation-iteration-count:1 !important;scroll-behavior:auto !important}
-    }
   `;
   document.head.appendChild(s);
 })();
 </script>
-</head>
-<body>
 
 <!-- FULL PAGE Star Particles Canvas -->
 <canvas id="star-particles"></canvas>
@@ -317,27 +292,23 @@
 
   function resizeCanvas(){
     canvas.width = window.innerWidth;
-    canvas.height = Math.max(
-      document.documentElement.scrollHeight,
-      document.body.scrollHeight,
-      window.innerHeight
-    );
+    canvas.height = window.innerHeight;
   }
 
   let stars = [];
-  const count = 150;
+  const STAR_COUNT = 250;
 
   function createStars(){
     stars = [];
-    for(let i = 0; i < count; i++){
+    for(let i = 0; i < STAR_COUNT; i++){
       stars.push({
         x: Math.random() * canvas.width,
         y: Math.random() * canvas.height,
-        size: Math.random() * 1.8 + 0.4,
-        opacity: Math.random() * 0.6 + 0.2,
-        twinkle: Math.random() * 0.015 + 0.005,
-        vx: (Math.random() - 0.5) * 0.15,
-        vy: (Math.random() - 0.5) * 0.15
+        size: Math.random() * 2.5 + 0.8,
+        opacity: Math.random() * 0.5 + 0.4,
+        twinkle: (Math.random() * 0.025 + 0.01) * (Math.random() > 0.5 ? 1 : -1),
+        vx: (Math.random() - 0.5) * 0.25,
+        vy: (Math.random() - 0.5) * 0.25
       });
     }
   }
@@ -348,7 +319,6 @@
     for(let i = 0; i < stars.length; i++){
       const s = stars[i];
       
-      // gentle movement
       s.x += s.vx;
       s.y += s.vy;
       if(s.x < 0) s.x = canvas.width;
@@ -356,29 +326,37 @@
       if(s.y < 0) s.y = canvas.height;
       if(s.y > canvas.height) s.y = 0;
       
-      // twinkle
       s.opacity += s.twinkle;
-      if(s.opacity > 0.8 || s.opacity < 0.2) s.twinkle *= -1;
+      if(s.opacity > 0.95 || s.opacity < 0.3) s.twinkle *= -1;
       
-      // draw star
+      // Outer glow
+      if(s.size > 1.4){
+        ctx.beginPath();
+        ctx.arc(s.x, s.y, s.size * 3, 0, Math.PI * 2);
+        ctx.fillStyle = `rgba(255, 255, 255, ${s.opacity * 0.1})`;
+        ctx.fill();
+      }
+      
+      // Star core - BRIGHT WHITE
       ctx.beginPath();
       ctx.arc(s.x, s.y, s.size, 0, Math.PI * 2);
       ctx.fillStyle = `rgba(255, 255, 255, ${s.opacity})`;
       ctx.fill();
     }
     
-    // connecting lines between nearby stars
+    // Connecting lines - VISIBLE
     for(let i = 0; i < stars.length; i++){
       for(let j = i + 1; j < stars.length; j++){
         const dx = stars[i].x - stars[j].x;
         const dy = stars[i].y - stars[j].y;
         const dist = Math.sqrt(dx * dx + dy * dy);
-        if(dist < 120){
+        if(dist < 140){
           ctx.beginPath();
           ctx.moveTo(stars[i].x, stars[i].y);
           ctx.lineTo(stars[j].x, stars[j].y);
-          ctx.strokeStyle = `rgba(255, 255, 255, ${0.06 * (1 - dist / 120)})`;
-          ctx.lineWidth = 0.5;
+          const lineOpacity = 0.18 * (1 - dist / 140);
+          ctx.strokeStyle = `rgba(255, 255, 255, ${lineOpacity})`;
+          ctx.lineWidth = 0.7;
           ctx.stroke();
         }
       }
@@ -395,27 +373,13 @@
     resizeCanvas();
     createStars();
   });
-
-  // Re-measure on scroll to handle dynamic content
-  setInterval(() => {
-    const needed = Math.max(
-      document.documentElement.scrollHeight,
-      document.body.scrollHeight,
-      window.innerHeight
-    );
-    if(Math.abs(canvas.height - needed) > 200){
-      resizeCanvas();
-    }
-  }, 1000);
 })();
 </script>
-</body>
-</html>
 
-<div style="background-color:var(--dark);box-sizing:border-box;min-height:100%;">
+<div class="page-wrapper">
 
   <!-- NAVBAR -->
-  <nav style="position:sticky;top:0;z-index:50;background:rgba(10,10,15,.92);backdrop-filter:blur(14px);border-bottom:1px solid var(--border);">
+  <nav style="position:sticky;top:0;z-index:50;background:rgba(10,10,15,.9) !important;backdrop-filter:blur(14px);border-bottom:1px solid var(--border);">
     <div style="max-width:1280px;margin:0 auto;padding:14px 24px;display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:12px;">
       <div style="display:flex;align-items:center;gap:12px;">
         <img class="brand-logo logo-glow" src="https://p16-flow-image-sign.ibyteimg.com/tos-mya-i-uo7y4d541q/15614ae756b74d42921184c1fbf41bc0.png~tplv-0es2k971ck-image.image?rcl=202608231806144FAD60C5F1D9A51BA3F7&rk3s=8e244e95&rrcfp=935dee89&x-expires=1788084376&x-signature=YClo8vjjR9Nx1g0c8LmhvKBPg7o%3D" alt="NUZASIWA" referrerpolicy="no-referrer" onerror="this.style.display='none'">
@@ -441,7 +405,12 @@
   </nav>
 
   <!-- HERO with GIF -->
-  <section id="beranda" class="hero-gradient" style="padding:60px 24px 40px;position:relative;overflow:hidden;">
+  <section id="beranda" style="padding:60px 24px 40px;position:relative;overflow:hidden;">
+    <div style="position:absolute;inset:0;background:
+      radial-gradient(700px 400px at 5% 0%, rgba(236,72,153,.2), transparent 60%),
+      radial-gradient(600px 350px at 50% -10%, rgba(168,85,247,.15), transparent 60%),
+      radial-gradient(700px 400px at 95% 15%, rgba(56,189,248,.18), transparent 60%);
+      pointer-events:none;z-index:0;"></div>
     <div style="max-width:1280px;margin:0 auto;display:grid;grid-template-columns:1fr 1fr;gap:50px;align-items:center;position:relative;z-index:1;">
       <div>
         <div style="display:inline-flex;align-items:center;gap:8px;padding:6px 16px;border-radius:20px;background:rgba(168,85,247,.12);border:1px solid rgba(168,85,247,.3);color:var(--purple);font-size:12px;font-weight:600;letter-spacing:.08em;margin-bottom:22px;">
@@ -495,7 +464,6 @@
       </div>
     </div>
 
-    <!-- Running Text Marquee -->
     <div class="marquee-container" style="position:relative;z-index:1;">
       <div class="marquee-text">
         <span>Siap dipakai kerja</span><span class="sep">✦</span>
@@ -515,7 +483,7 @@
   </section>
 
   <!-- KATEGORI CEPAT -->
-  <section id="kategori" style="padding:60px 24px;background:linear-gradient(180deg, var(--dark), #12121f);">
+  <section id="kategori" style="padding:60px 24px;">
     <div style="max-width:1280px;margin:0 auto;">
       <div style="text-align:center;margin-bottom:40px;">
         <div style="font-size:11px;color:var(--pink);letter-spacing:.2em;text-transform:uppercase;font-weight:600;margin-bottom:10px;">Kategori Produk</div>
@@ -532,7 +500,7 @@
         </div>
         <div class="category-tile" onclick="filterCategory('laptop',this)">
           <div class="category-icon" style="margin:0 auto 12px;">
-            <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="var(--pink)" stroke-width="1.8"><rect x="2" y="4" width="20" height="12" rx="2"/><path d="M2 16h20"/><path d="M4 20h16"/></svg>
+            <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="var(--pink)" stroke-width="1.8"><rect x="2" y="4" width="20" height="14" rx="2"/><path d="M2 16h20"/><path d="M4 20h16"/></svg>
           </div>
           <div style="font-weight:700;font-size:14px;">Laptop</div>
           <div style="font-size:11px;color:var(--muted);margin-top:3px;"><span class="count-pill">17</span></div>
@@ -565,7 +533,7 @@
   <div class="divider-gradient" style="max-width:1280px;margin:0 auto;"></div>
 
   <!-- KATALOG PRODUK -->
-  <section id="katalog" style="padding:70px 24px;background:var(--dark);">
+  <section id="katalog" style="padding:70px 24px;">
     <div style="max-width:1280px;margin:0 auto;">
       <div style="text-align:center;margin-bottom:32px;">
         <div style="font-size:11px;color:var(--sky);letter-spacing:.2em;text-transform:uppercase;font-weight:600;margin-bottom:10px;">Katalog Produk</div>
@@ -587,7 +555,7 @@
   </section>
 
   <!-- LAYANAN -->
-  <section id="layanan" style="padding:70px 24px;background:linear-gradient(180deg, #12121f, var(--dark));">
+  <section id="layanan" style="padding:70px 24px;">
     <div style="max-width:1280px;margin:0 auto;">
       <div style="text-align:center;margin-bottom:48px;">
         <div style="font-size:11px;color:var(--pink);letter-spacing:.2em;text-transform:uppercase;font-weight:600;margin-bottom:10px;">Layanan Kami</div>
@@ -644,7 +612,7 @@
   </section>
 
   <!-- KONTAK -->
-  <section id="kontak" style="padding:70px 24px;background:linear-gradient(180deg, var(--dark), #12121f);">
+  <section id="kontak" style="padding:70px 24px;">
     <div style="max-width:960px;margin:0 auto;">
       <div style="text-align:center;margin-bottom:40px;">
         <div style="font-size:11px;color:var(--sky);letter-spacing:.2em;text-transform:uppercase;font-weight:600;margin-bottom:10px;">Hubungi Kami</div>
@@ -696,7 +664,7 @@
   </section>
 
   <!-- FOOTER -->
-  <footer style="padding:32px 24px;border-top:1px solid var(--border);background:var(--dark);">
+  <footer style="padding:32px 24px;border-top:1px solid var(--border);">
     <div style="max-width:1280px;margin:0 auto;display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:16px;">
       <div style="display:flex;align-items:center;gap:10px;">
         <img class="brand-logo-sm" src="https://p16-flow-image-sign.ibyteimg.com/tos-mya-i-uo7y4d541q/15614ae756b74d42921184c1fbf41bc0.png~tplv-0es2k971ck-image.image?rcl=202608231806144FAD60C5F1D9A51BA3F7&rk3s=8e244e95&rrcfp=935dee89&x-expires=1788084376&x-signature=YClo8vjjR9Nx1g0c8LmhvKBPg7o%3D" alt="NUZASIWA" referrerpolicy="no-referrer" onerror="this.style.display='none'">
@@ -775,7 +743,7 @@
       var waLink = 'https://wa.me/6287772565143?text=' + encodeURIComponent(p.waText);
       
       return `
-        <div class="product-card card-gradient" data-cat="${p.category}" style="border-radius:16px;display:flex;flex-direction:column;">
+        <div class="product-card" data-cat="${p.category}" style="border-radius:16px;display:flex;flex-direction:column;">
           <div class="product-img-container">
             <span class="badge ${p.badgeClass}" style="position:absolute;top:10px;left:10px;z-index:2;">${p.badge}</span>
             <span class="stock-badge" style="position:absolute;top:10px;right:10px;z-index:2;">✓ Tersedia</span>
