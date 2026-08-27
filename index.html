@@ -21,7 +21,6 @@
     *{font-family:'Syne',sans-serif}
     html,body{margin:0;padding:0;background:#0a0a0f;color:var(--white);overflow-x:hidden;min-height:100%;}
 
-    /* Star particles canvas - FULL PAGE FIXED */
     #star-particles{
       position:fixed !important;
       top:0 !important;left:0 !important;
@@ -33,7 +32,6 @@
       background:transparent !important;
     }
 
-    /* All content sits ABOVE particles */
     nav, section, footer, .page-wrapper{
       position:relative;
       z-index:1;
@@ -282,7 +280,6 @@
 })();
 </script>
 
-<!-- FULL PAGE Star Particles Canvas -->
 <canvas id="star-particles"></canvas>
 
 <script>
@@ -296,7 +293,36 @@
   }
 
   let stars = [];
-  const STAR_COUNT = 250;
+  const STAR_COUNT = 180;
+  const MOUSE_RADIUS = 180;
+  const FORCE_STRENGTH = 0.6; // KUAT & RESPONSIF
+
+  // Mouse tracking dengan VELOCITY
+  let mouse = {
+    x: -9999,
+    y: -9999,
+    px: -9999,
+    py: -9999,
+    vx: 0,
+    vy: 0,
+    active: false
+  };
+
+  document.addEventListener('mousemove', function(e){
+    mouse.px = mouse.x;
+    mouse.py = mouse.y;
+    mouse.x = e.clientX;
+    mouse.y = e.clientY;
+    mouse.vx = mouse.x - mouse.px;
+    mouse.vy = mouse.y - mouse.py;
+    mouse.active = true;
+  });
+
+  document.addEventListener('mouseleave', function(){
+    mouse.active = false;
+    mouse.vx = 0;
+    mouse.vy = 0;
+  });
 
   function createStars(){
     stars = [];
@@ -304,59 +330,119 @@
       stars.push({
         x: Math.random() * canvas.width,
         y: Math.random() * canvas.height,
-        size: Math.random() * 2.5 + 0.8,
-        opacity: Math.random() * 0.5 + 0.4,
-        twinkle: (Math.random() * 0.025 + 0.01) * (Math.random() > 0.5 ? 1 : -1),
-        vx: (Math.random() - 0.5) * 0.25,
-        vy: (Math.random() - 0.5) * 0.25
+        originX: 0,
+        originY: 0,
+        size: Math.random() * 1.4 + 0.5,
+        opacity: Math.random() * 0.5 + 0.35,
+        twinkle: (Math.random() * 0.02 + 0.008) * (Math.random() > 0.5 ? 1 : -1),
+        vx: 0,
+        vy: 0
       });
+      stars[i].originX = stars[i].x;
+      stars[i].originY = stars[i].y;
     }
   }
 
   function drawStars(){
     ctx.clearRect(0, 0, canvas.width, canvas.height);
     
+    // Slowly decay mouse velocity
+    mouse.vx *= 0.92;
+    mouse.vy *= 0.92;
+    
     for(let i = 0; i < stars.length; i++){
       const s = stars[i];
       
+      // === FAST MOUSE RESPONSE ===
+      if(mouse.active){
+        const dx = mouse.x - s.x;
+        const dy = mouse.y - s.y;
+        const dist = Math.sqrt(dx * dx + dy * dy);
+        
+        if(dist < MOUSE_RADIUS && dist > 1){
+          // Kekuatan gaya: semakin dekat = SEMAKIN KUAT
+          const force = Math.pow(1 - dist / MOUSE_RADIUS, 2) * FORCE_STRENGTH;
+          
+          // Arah ke kursor
+          const nx = dx / dist;
+          const ny = dy / dist;
+          
+          // LANGSUNG bergerak ke arah kursor + tambah momentum dari kecepatan kursor
+          s.vx += nx * force + mouse.vx * 0.015;
+          s.vy += ny * force + mouse.vy * 0.015;
+          
+          // Lebih terang saat dekat kursor
+          s.opacity = Math.min(0.95, s.opacity + 0.015);
+        }
+      }
+      
+      // Kembali ke posisi asal (spring effect) - LEMBUT tapi ada
+      const backDx = s.originX - s.x;
+      const backDy = s.originY - s.y;
+      s.vx += backDx * 0.003;
+      s.vy += backDy * 0.003;
+      
+      // Drift alami yang sangat lembut
+      s.vx += (Math.random() - 0.5) * 0.02;
+      s.vy += (Math.random() - 0.5) * 0.02;
+      
+      // Damping RENDAH agar gerakan lebih bebas dan responsif
+      s.vx *= 0.94;
+      s.vy *= 0.94;
+      
+      // Batasi kecepatan maksimum - TINGGI
+      const speed = Math.sqrt(s.vx * s.vx + s.vy * s.vy);
+      if(speed > 6){
+        s.vx = (s.vx / speed) * 6;
+        s.vy = (s.vy / speed) * 6;
+      }
+      
+      // Update posisi
       s.x += s.vx;
       s.y += s.vy;
-      if(s.x < 0) s.x = canvas.width;
-      if(s.x > canvas.width) s.x = 0;
-      if(s.y < 0) s.y = canvas.height;
-      if(s.y > canvas.height) s.y = 0;
       
+      // Update origin juga perlahan agar tidak kaku
+      s.originX += (Math.random() - 0.5) * 0.15;
+      s.originY += (Math.random() - 0.5) * 0.15;
+      
+      // Wrap around
+      if(s.x < -20) { s.x = canvas.width + 20; s.originX = canvas.width + 20; }
+      if(s.x > canvas.width + 20) { s.x = -20; s.originX = -20; }
+      if(s.y < -20) { s.y = canvas.height + 20; s.originY = canvas.height + 20; }
+      if(s.y > canvas.height + 20) { s.y = -20; s.originY = -20; }
+      
+      // Twinkle
       s.opacity += s.twinkle;
-      if(s.opacity > 0.95 || s.opacity < 0.3) s.twinkle *= -1;
+      if(s.opacity > 0.9 || s.opacity < 0.3) s.twinkle *= -1;
       
-      // Outer glow
-      if(s.size > 1.4){
+      // Glow untuk bintang agak besar
+      if(s.size > 1.0){
         ctx.beginPath();
-        ctx.arc(s.x, s.y, s.size * 3, 0, Math.PI * 2);
-        ctx.fillStyle = `rgba(255, 255, 255, ${s.opacity * 0.1})`;
+        ctx.arc(s.x, s.y, s.size * 2.5, 0, Math.PI * 2);
+        ctx.fillStyle = `rgba(255, 255, 255, ${s.opacity * 0.08})`;
         ctx.fill();
       }
       
-      // Star core - BRIGHT WHITE
+      // Gambar bintang
       ctx.beginPath();
       ctx.arc(s.x, s.y, s.size, 0, Math.PI * 2);
       ctx.fillStyle = `rgba(255, 255, 255, ${s.opacity})`;
       ctx.fill();
     }
     
-    // Connecting lines - VISIBLE
+    // Garis penghubung
     for(let i = 0; i < stars.length; i++){
       for(let j = i + 1; j < stars.length; j++){
         const dx = stars[i].x - stars[j].x;
         const dy = stars[i].y - stars[j].y;
         const dist = Math.sqrt(dx * dx + dy * dy);
-        if(dist < 140){
+        if(dist < 130){
           ctx.beginPath();
           ctx.moveTo(stars[i].x, stars[i].y);
           ctx.lineTo(stars[j].x, stars[j].y);
-          const lineOpacity = 0.18 * (1 - dist / 140);
+          const lineOpacity = 0.15 * (1 - dist / 130);
           ctx.strokeStyle = `rgba(255, 255, 255, ${lineOpacity})`;
-          ctx.lineWidth = 0.7;
+          ctx.lineWidth = 0.6;
           ctx.stroke();
         }
       }
