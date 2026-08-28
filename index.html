@@ -275,6 +275,125 @@
       50%{filter:drop-shadow(0 0 22px rgba(168,85,247,.7));}
     }
     .logo-glow{animation:glow 3s ease-in-out infinite;}
+
+    /* === SOSIAL MEDIA - RAINBOW GLOW TIPIS === */
+    .social-item{
+      display:inline-flex;
+      align-items:center;
+      gap:10px;
+      padding:10px 18px;
+      border-radius:12px;
+      text-decoration:none;
+      color:var(--white);
+      font-weight:600;
+      font-size:14px;
+      position:relative;
+      transition:all .3s ease;
+      border:1px solid var(--border);
+      background:rgba(255,255,255,.03);
+    }
+    
+    /* Efek CAHAYA RAINBOW TIPIS di belakang tulisan - keadaan NORMAL */
+    .social-item .social-text{
+      position:relative;
+      z-index:2;
+      text-shadow:
+        0 0 2px rgba(255,0,0,.25),
+        0 0 3px rgba(255,165,0,.2),
+        0 0 3px rgba(255,255,0,.18),
+        0 0 3px rgba(0,255,0,.18),
+        0 0 3px rgba(0,191,255,.2),
+        0 0 3px rgba(75,0,130,.22),
+        0 0 4px rgba(238,130,238,.2);
+    }
+    
+    /* Efek rainbow glow juga di belakang ikon */
+    .social-item .social-icon{
+      position:relative;
+      z-index:2;
+      filter:
+        drop-shadow(0 0 1.5px rgba(255,0,0,.3))
+        drop-shadow(0 0 2px rgba(0,255,128,.2))
+        drop-shadow(0 0 2px rgba(0,100,255,.25));
+    }
+    
+    /* Latar belakang rainbow blur tipis di seluruh item */
+    .social-item::before{
+      content:'';
+      position:absolute;
+      inset:-2px;
+      border-radius:14px;
+      background:linear-gradient(135deg,
+        rgba(255,0,0,.15),
+        rgba(255,165,0,.12),
+        rgba(255,255,0,.1),
+        rgba(0,255,100,.1),
+        rgba(0,150,255,.12),
+        rgba(130,0,200,.15),
+        rgba(255,0,150,.12));
+      filter:blur(6px);
+      z-index:0;
+      opacity:.7;
+      transition:opacity .3s ease;
+    }
+    
+    .social-item:hover{
+      transform:translateY(-2px);
+      border-color:rgba(168,85,247,.5);
+      background:rgba(168,85,247,.08);
+    }
+    
+    .social-item:hover::before{
+      opacity:1;
+      filter:blur(8px);
+    }
+    
+    .social-item:hover .social-text{
+      text-shadow:
+        0 0 3px rgba(255,0,0,.4),
+        0 0 4px rgba(255,165,0,.35),
+        0 0 4px rgba(255,255,0,.3),
+        0 0 4px rgba(0,255,0,.3),
+        0 0 4px rgba(0,191,255,.35),
+        0 0 5px rgba(75,0,130,.4),
+        0 0 6px rgba(238,130,238,.35);
+    }
+
+    /* Social di footer - versi lebih kecil */
+    .social-footer{
+      display:inline-flex;
+      align-items:center;
+      justify-content:center;
+      width:38px;
+      height:38px;
+      border-radius:10px;
+      text-decoration:none;
+      position:relative;
+      transition:all .3s ease;
+      border:1px solid var(--border);
+      background:rgba(255,255,255,.04);
+    }
+    .social-footer::before{
+      content:'';
+      position:absolute;
+      inset:-1px;
+      border-radius:11px;
+      background:linear-gradient(135deg,
+        rgba(255,0,0,.18),
+        rgba(255,200,0,.14),
+        rgba(0,255,120,.12),
+        rgba(0,120,255,.16),
+        rgba(180,0,220,.18));
+      filter:blur(5px);
+      z-index:0;
+      opacity:.65;
+    }
+    .social-footer svg{position:relative;z-index:2;}
+    .social-footer:hover{
+      transform:translateY(-2px);
+      border-color:rgba(168,85,247,.5);
+    }
+    .social-footer:hover::before{opacity:1;filter:blur(7px);}
   `;
   document.head.appendChild(s);
 })();
@@ -295,33 +414,21 @@
   let stars = [];
   const STAR_COUNT = 180;
   const MOUSE_RADIUS = 180;
-  const FORCE_STRENGTH = 0.6; // KUAT & RESPONSIF
+  const FORCE_STRENGTH = 0.6;
 
-  // Mouse tracking dengan VELOCITY
   let mouse = {
-    x: -9999,
-    y: -9999,
-    px: -9999,
-    py: -9999,
-    vx: 0,
-    vy: 0,
-    active: false
+    x: -9999, y: -9999, px: -9999, py: -9999,
+    vx: 0, vy: 0, active: false
   };
 
   document.addEventListener('mousemove', function(e){
-    mouse.px = mouse.x;
-    mouse.py = mouse.y;
-    mouse.x = e.clientX;
-    mouse.y = e.clientY;
-    mouse.vx = mouse.x - mouse.px;
-    mouse.vy = mouse.y - mouse.py;
+    mouse.px = mouse.x; mouse.py = mouse.y;
+    mouse.x = e.clientX; mouse.y = e.clientY;
+    mouse.vx = mouse.x - mouse.px; mouse.vy = mouse.y - mouse.py;
     mouse.active = true;
   });
-
   document.addEventListener('mouseleave', function(){
-    mouse.active = false;
-    mouse.vx = 0;
-    mouse.vy = 0;
+    mouse.active = false; mouse.vx = 0; mouse.vy = 0;
   });
 
   function createStars(){
@@ -330,13 +437,11 @@
       stars.push({
         x: Math.random() * canvas.width,
         y: Math.random() * canvas.height,
-        originX: 0,
-        originY: 0,
+        originX: 0, originY: 0,
         size: Math.random() * 1.4 + 0.5,
         opacity: Math.random() * 0.5 + 0.35,
         twinkle: (Math.random() * 0.02 + 0.008) * (Math.random() > 0.5 ? 1 : -1),
-        vx: 0,
-        vy: 0
+        vx: 0, vy: 0
       });
       stars[i].originX = stars[i].x;
       stars[i].originY = stars[i].y;
@@ -345,120 +450,60 @@
 
   function drawStars(){
     ctx.clearRect(0, 0, canvas.width, canvas.height);
-    
-    // Slowly decay mouse velocity
-    mouse.vx *= 0.92;
-    mouse.vy *= 0.92;
+    mouse.vx *= 0.92; mouse.vy *= 0.92;
     
     for(let i = 0; i < stars.length; i++){
       const s = stars[i];
-      
-      // === FAST MOUSE RESPONSE ===
       if(mouse.active){
-        const dx = mouse.x - s.x;
-        const dy = mouse.y - s.y;
+        const dx = mouse.x - s.x; const dy = mouse.y - s.y;
         const dist = Math.sqrt(dx * dx + dy * dy);
-        
         if(dist < MOUSE_RADIUS && dist > 1){
-          // Kekuatan gaya: semakin dekat = SEMAKIN KUAT
           const force = Math.pow(1 - dist / MOUSE_RADIUS, 2) * FORCE_STRENGTH;
-          
-          // Arah ke kursor
-          const nx = dx / dist;
-          const ny = dy / dist;
-          
-          // LANGSUNG bergerak ke arah kursor + tambah momentum dari kecepatan kursor
+          const nx = dx / dist; const ny = dy / dist;
           s.vx += nx * force + mouse.vx * 0.015;
           s.vy += ny * force + mouse.vy * 0.015;
-          
-          // Lebih terang saat dekat kursor
           s.opacity = Math.min(0.95, s.opacity + 0.015);
         }
       }
-      
-      // Kembali ke posisi asal (spring effect) - LEMBUT tapi ada
-      const backDx = s.originX - s.x;
-      const backDy = s.originY - s.y;
-      s.vx += backDx * 0.003;
-      s.vy += backDy * 0.003;
-      
-      // Drift alami yang sangat lembut
-      s.vx += (Math.random() - 0.5) * 0.02;
-      s.vy += (Math.random() - 0.5) * 0.02;
-      
-      // Damping RENDAH agar gerakan lebih bebas dan responsif
-      s.vx *= 0.94;
-      s.vy *= 0.94;
-      
-      // Batasi kecepatan maksimum - TINGGI
+      const backDx = s.originX - s.x; const backDy = s.originY - s.y;
+      s.vx += backDx * 0.003; s.vy += backDy * 0.003;
+      s.vx += (Math.random() - 0.5) * 0.02; s.vy += (Math.random() - 0.5) * 0.02;
+      s.vx *= 0.94; s.vy *= 0.94;
       const speed = Math.sqrt(s.vx * s.vx + s.vy * s.vy);
-      if(speed > 6){
-        s.vx = (s.vx / speed) * 6;
-        s.vy = (s.vy / speed) * 6;
-      }
-      
-      // Update posisi
-      s.x += s.vx;
-      s.y += s.vy;
-      
-      // Update origin juga perlahan agar tidak kaku
+      if(speed > 6){ s.vx = (s.vx / speed) * 6; s.vy = (s.vy / speed) * 6; }
+      s.x += s.vx; s.y += s.vy;
       s.originX += (Math.random() - 0.5) * 0.15;
       s.originY += (Math.random() - 0.5) * 0.15;
-      
-      // Wrap around
       if(s.x < -20) { s.x = canvas.width + 20; s.originX = canvas.width + 20; }
       if(s.x > canvas.width + 20) { s.x = -20; s.originX = -20; }
       if(s.y < -20) { s.y = canvas.height + 20; s.originY = canvas.height + 20; }
       if(s.y > canvas.height + 20) { s.y = -20; s.originY = -20; }
-      
-      // Twinkle
       s.opacity += s.twinkle;
       if(s.opacity > 0.9 || s.opacity < 0.3) s.twinkle *= -1;
-      
-      // Glow untuk bintang agak besar
       if(s.size > 1.0){
-        ctx.beginPath();
-        ctx.arc(s.x, s.y, s.size * 2.5, 0, Math.PI * 2);
-        ctx.fillStyle = `rgba(255, 255, 255, ${s.opacity * 0.08})`;
-        ctx.fill();
+        ctx.beginPath(); ctx.arc(s.x, s.y, s.size * 2.5, 0, Math.PI * 2);
+        ctx.fillStyle = `rgba(255, 255, 255, ${s.opacity * 0.08})`; ctx.fill();
       }
-      
-      // Gambar bintang
-      ctx.beginPath();
-      ctx.arc(s.x, s.y, s.size, 0, Math.PI * 2);
-      ctx.fillStyle = `rgba(255, 255, 255, ${s.opacity})`;
-      ctx.fill();
+      ctx.beginPath(); ctx.arc(s.x, s.y, s.size, 0, Math.PI * 2);
+      ctx.fillStyle = `rgba(255, 255, 255, ${s.opacity})`; ctx.fill();
     }
     
-    // Garis penghubung
     for(let i = 0; i < stars.length; i++){
       for(let j = i + 1; j < stars.length; j++){
-        const dx = stars[i].x - stars[j].x;
-        const dy = stars[i].y - stars[j].y;
+        const dx = stars[i].x - stars[j].x; const dy = stars[i].y - stars[j].y;
         const dist = Math.sqrt(dx * dx + dy * dy);
         if(dist < 130){
-          ctx.beginPath();
-          ctx.moveTo(stars[i].x, stars[i].y);
-          ctx.lineTo(stars[j].x, stars[j].y);
-          const lineOpacity = 0.15 * (1 - dist / 130);
-          ctx.strokeStyle = `rgba(255, 255, 255, ${lineOpacity})`;
-          ctx.lineWidth = 0.6;
-          ctx.stroke();
+          ctx.beginPath(); ctx.moveTo(stars[i].x, stars[i].y); ctx.lineTo(stars[j].x, stars[j].y);
+          ctx.strokeStyle = `rgba(255, 255, 255, ${0.15 * (1 - dist / 130)})`;
+          ctx.lineWidth = 0.6; ctx.stroke();
         }
       }
     }
-    
     requestAnimationFrame(drawStars);
   }
 
-  resizeCanvas();
-  createStars();
-  drawStars();
-
-  window.addEventListener('resize', () => {
-    resizeCanvas();
-    createStars();
-  });
+  resizeCanvas(); createStars(); drawStars();
+  window.addEventListener('resize', () => { resizeCanvas(); createStars(); });
 })();
 </script>
 
@@ -697,7 +742,7 @@
     </div>
   </section>
 
-  <!-- KONTAK -->
+  <!-- KONTAK + SOSIAL MEDIA -->
   <section id="kontak" style="padding:70px 24px;">
     <div style="max-width:960px;margin:0 auto;">
       <div style="text-align:center;margin-bottom:40px;">
@@ -740,16 +785,47 @@
             </button>
           </a>
           <p style="color:var(--muted);font-size:12px;margin-top:14px;line-height:1.6;">Respon cepat kurang dari 1 jam pada jam operasional</p>
-          <div style="margin-top:28px;padding:16px;border-radius:12px;background:rgba(255,255,255,.03);border:1px solid var(--border);">
-            <div style="font-size:12px;font-weight:600;color:var(--white);margin-bottom:4px;">Butuh penawaran resmi?</div>
-            <div style="font-size:11px;color:var(--muted);line-height:1.6;">Khusus pengadaan instansi/perusahaan, kami dapat menyediakan surat penawaran resmi dan faktur pajak.</div>
+          
+          <!-- SOSIAL MEDIA DI BAGIAN KONTAK -->
+          <div style="margin-top:28px;padding-top:20px;border-top:1px solid var(--border);">
+            <div style="font-size:12px;font-weight:600;color:var(--muted);margin-bottom:14px;letter-spacing:.05em;">IKUTI KAMI DI SOSIAL MEDIA</div>
+            <div style="display:flex;gap:10px;justify-content:center;flex-wrap:wrap;">
+              <!-- FACEBOOK -->
+              <a href="https://www.facebook.com/kptm.kz" target="_blank" class="social-item">
+                <svg class="social-icon" width="18" height="18" viewBox="0 0 24 24" fill="#1877F2"><path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"/></svg>
+                <span class="social-text">Facebook</span>
+              </a>
+              <!-- TIKTOK -->
+              <a href="https://www.tiktok.com/@hey.nuza?_r=1&_t=ZS-99FlbSG80XN" target="_blank" class="social-item">
+                <svg class="social-icon" width="18" height="18" viewBox="0 0 24 24" fill="#fff"><path d="M19.59 6.69a4.83 4.83 0 0 1-3.77-4.25V2h-3.45v13.67a2.89 2.89 0 0 1-5.2 1.74 2.89 2.89 0 0 1 2.31-4.64 2.93 2.93 0 0 1 .88.13V9.4a6.84 6.84 0 0 0-1-.05A6.33 6.33 0 0 0 5 20.1a6.34 6.34 0 0 0 10.86-4.43v-7a8.16 8.16 0 0 0 4.77 1.52v-3.4a4.85 4.85 0 0 1-1-.1z"/></svg>
+                <span class="social-text">TikTok</span>
+              </a>
+              <!-- INSTAGRAM -->
+              <a href="https://www.instagram.com/heynuzasiwa?igsi=MW4xM3d1MmNqZWlsZw==" target="_blank" class="social-item">
+                <svg class="social-icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="url(#ig-grad)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                  <defs>
+                    <linearGradient id="ig-grad" x1="0%" y1="100%" x2="100%" y2="0%">
+                      <stop offset="0%" style="stop-color:#FEDA75"/>
+                      <stop offset="25%" style="stop-color:#FA7E1E"/>
+                      <stop offset="50%" style="stop-color:#D62976"/>
+                      <stop offset="75%" style="stop-color:#962FBF"/>
+                      <stop offset="100%" style="stop-color:#4F5BD5"/>
+                    </linearGradient>
+                  </defs>
+                  <rect x="2" y="2" width="20" height="20" rx="5" ry="5"/>
+                  <path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"/>
+                  <line x1="17.5" y1="6.5" x2="17.51" y2="6.5"/>
+                </svg>
+                <span class="social-text">Instagram</span>
+              </a>
+            </div>
           </div>
         </div>
       </div>
     </div>
   </section>
 
-  <!-- FOOTER -->
+  <!-- FOOTER dengan SOSIAL MEDIA -->
   <footer style="padding:32px 24px;border-top:1px solid var(--border);">
     <div style="max-width:1280px;margin:0 auto;display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:16px;">
       <div style="display:flex;align-items:center;gap:10px;">
@@ -763,9 +839,29 @@
         © 2026 NUZASIWA · All rights reserved · 
         <a href="https://wa.me/6287772565143" target="_blank" style="color:var(--purple);text-decoration:none;font-weight:600;">0877-7256-5143</a>
       </div>
+      <!-- SOSIAL MEDIA DI FOOTER -->
       <div style="display:flex;gap:10px;">
-        <a href="https://wa.me/6287772565143" target="_blank" style="width:34px;height:34px;border-radius:10px;background:rgba(255,255,255,.05);border:1px solid var(--border);display:flex;align-items:center;justify-content:center;text-decoration:none;transition:all .2s;" onmouseover="this.style.borderColor='var(--purple)';this.style.background='rgba(168,85,247,.12)'" onmouseout="this.style.borderColor='var(--border)';this.style.background='rgba(255,255,255,.05)'">
-          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="var(--muted)" stroke-width="2"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72c.127.96.361 1.903.7 2.81a2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0 1 22 16.92z"/></svg>
+        <a href="https://www.facebook.com/kptm.kz" target="_blank" class="social-footer" title="Facebook">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="#1877F2"><path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"/></svg>
+        </a>
+        <a href="https://www.tiktok.com/@hey.nuza?_r=1&_t=ZS-99FlbSG80XN" target="_blank" class="social-footer" title="TikTok">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="#fff"><path d="M19.59 6.69a4.83 4.83 0 0 1-3.77-4.25V2h-3.45v13.67a2.89 2.89 0 0 1-5.2 1.74 2.89 2.89 0 0 1 2.31-4.64 2.93 2.93 0 0 1 .88.13V9.4a6.84 6.84 0 0 0-1-.05A6.33 6.33 0 0 0 5 20.1a6.34 6.34 0 0 0 10.86-4.43v-7a8.16 8.16 0 0 0 4.77 1.52v-3.4a4.85 4.85 0 0 1-1-.1z"/></svg>
+        </a>
+        <a href="https://www.instagram.com/heynuzasiwa?igsi=MW4xM3d1MmNqZWlsZw==" target="_blank" class="social-footer" title="Instagram">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="url(#ig-grad2)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <defs>
+              <linearGradient id="ig-grad2" x1="0%" y1="100%" x2="100%" y2="0%">
+                <stop offset="0%" style="stop-color:#FEDA75"/>
+                <stop offset="25%" style="stop-color:#FA7E1E"/>
+                <stop offset="50%" style="stop-color:#D62976"/>
+                <stop offset="75%" style="stop-color:#962FBF"/>
+                <stop offset="100%" style="stop-color:#4F5BD5"/>
+              </linearGradient>
+            </defs>
+            <rect x="2" y="2" width="20" height="20" rx="5" ry="5"/>
+            <path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"/>
+            <line x1="17.5" y1="6.5" x2="17.51" y2="6.5"/>
+          </svg>
         </a>
       </div>
     </div>
