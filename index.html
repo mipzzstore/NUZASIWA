@@ -587,7 +587,7 @@
   function fadeIn(){
     clearInterval(fadeTimer);
     audio.volume=0;
-    var steps=50;
+    var steps=3;
     var step=0;
     fadeTimer=setInterval(function(){
       step++;
@@ -622,7 +622,7 @@
   function onAudioEnded(){
     if(!playlistStarted){
       playlistStarted=true;
-      setTimeout(function(){playTrack(0);},300);
+      setTimeout(function(){playTrack(0);},80);
       return;
     }
     playTrack(current+1);
